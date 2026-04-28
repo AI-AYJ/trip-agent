@@ -1,19 +1,20 @@
 {
-  "description": "정상 케이스 — operatingHours 파싱 불가 시 안전 처리",
-  "isFailureCase": false,
-  "mockPlace": {
-    "id": "test-001",
-    "name": "테스트 장소",
-    "category": "cafe",
-    "description": "테스트용",
-    "lat": 37.5665,
-    "lng": 126.9780,
-    "address": "서울시 중구",
-    "operatingHours": { "open": "invalid", "close": "invalid" },
-    "tags": []
+  "description": "정상 케이스 — 부산 해운대, 친구, 중간 피로도, 맛집+쇼핑",
+  "userState": {
+    "region": "부산 해운대",
+    "fatigue": "medium",
+    "companion": "friends",
+    "interests": ["맛집", "쇼핑"],
+    "startTime": "2026-04-28T12:00:00.000+09:00"
+  },
+  "kakaoExpected": {
+    "categoryCodes": ["FD6", "MT1"],
+    "minResults": 10
   },
   "expected": {
-    "getOperatingStatus": { "isOpen": false, "isClosingSoon": false },
-    "crash": false
+    "minPlaces": 10,
+    "dominantCategories": ["restaurant", "tourism"],
+    "interestMatchRatio": 0.7,
+    "allFieldsPresent": true
   }
 }
