@@ -1,0 +1,6 @@
+{
+  "name": "LocalPlace Agent",
+  "description": "지역 기반 AI 장소 추천 및 즐겨찾기 관리 에이전트",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
