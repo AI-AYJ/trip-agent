@@ -52,6 +52,7 @@ export const StateForm: React.FC<StateFormProps> = ({ userState, onChange, onSea
             {[Fatigue.LOW, Fatigue.MEDIUM, Fatigue.HIGH].map((f) => (
               <button
                 key={f}
+                data-group="fatigue"
                 onClick={() => onChange({ fatigue: f })}
                 className={cn(
                   "py-2 px-3 rounded-lg text-sm font-medium border transition-all",
@@ -75,6 +76,7 @@ export const StateForm: React.FC<StateFormProps> = ({ userState, onChange, onSea
             {[Companion.SOLO, Companion.COUPLE, Companion.FRIENDS, Companion.FAMILY].map((c) => (
               <button
                 key={c}
+                data-group="companion"
                 onClick={() => onChange({ companion: c })}
                 className={cn(
                   "py-2 px-3 rounded-lg text-sm font-medium border transition-all",
@@ -101,6 +103,7 @@ export const StateForm: React.FC<StateFormProps> = ({ userState, onChange, onSea
             {INTEREST_OPTIONS.map((interest) => (
               <button
                 key={interest}
+                data-group="interest"
                 onClick={() => toggleInterest(interest)}
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs font-semibold transition-all border",
@@ -120,6 +123,7 @@ export const StateForm: React.FC<StateFormProps> = ({ userState, onChange, onSea
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         disabled={isLoading || !userState.region}
+        data-testid="search-btn"
         onClick={onSearch}
         className={cn(
           "w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all",

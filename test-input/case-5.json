@@ -1,0 +1,19 @@
+{
+  "description": "정상 케이스 — operatingHours 파싱 불가 시 안전 처리",
+  "isFailureCase": false,
+  "mockPlace": {
+    "id": "test-001",
+    "name": "테스트 장소",
+    "category": "cafe",
+    "description": "테스트용",
+    "lat": 37.5665,
+    "lng": 126.9780,
+    "address": "서울시 중구",
+    "operatingHours": { "open": "invalid", "close": "invalid" },
+    "tags": []
+  },
+  "expected": {
+    "getOperatingStatus": { "isOpen": false, "isClosingSoon": false },
+    "crash": false
+  }
+}

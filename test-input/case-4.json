@@ -1,0 +1,20 @@
+{
+  "description": "정상 케이스 — 야간 23:00, 소도시, 카카오 결과 10개 미만 가능",
+  "userState": {
+    "region": "강원도 인제군",
+    "fatigue": "medium",
+    "companion": "alone",
+    "interests": ["관광지"],
+    "startTime": "2026-04-28T23:00:00.000+09:00"
+  },
+  "isEdgeCase": false,
+  "kakaoExpected": {
+    "categoryCodes": ["AT4"],
+    "minResults": 1
+  },
+  "expected": {
+    "minPlaces": 1,
+    "isOpenRatio": "< 0.5",
+    "note": "결과 10개 미만이어도 crash 없이 있는 만큼 표시"
+  }
+}

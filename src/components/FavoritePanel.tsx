@@ -40,12 +40,13 @@ export const FavoritePanel: React.FC<FavoritePanelProps> = ({ favorites, onRemov
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
+                  data-testid="favorite-item"
                   className="group flex gap-4 p-4 bg-white border border-brand-border rounded-xl hover:shadow-md transition-all relative overflow-hidden"
                 >
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] text-gray-400 font-mono">{(index + 1).toString().padStart(2, '0')}</span>
+                      <span data-testid="favorite-index" className="text-[10px] text-gray-400 font-mono">{(index + 1).toString().padStart(2, '0')}</span>
                       <h4 className="font-bold text-sm truncate">{place.name}</h4>
                     </div>
                     <div className="flex items-center gap-3 text-[10px] text-gray-500">

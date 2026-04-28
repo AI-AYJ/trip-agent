@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { UserState, AppState, Place, Fatigue, Companion } from './types';
 import { getRecommendations } from './lib/gemini';
 import { StateForm } from './components/StateForm';
 import { PlaceCard } from './components/PlaceCard';
 import { MapComponent } from './components/MapComponent';
 import { FavoritePanel } from './components/FavoritePanel';
-import { Map, Info, Compass, LayoutGrid, Map as MapIcon, Sparkles } from 'lucide-react';
+import { Map, Compass, LayoutGrid, Map as MapIcon, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
+import { ValidationAgent } from './components/ValidationAgent';
 
 const INITIAL_USER_STATE: UserState = {
   region: '',
@@ -30,6 +31,8 @@ export default function App() {
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
+  const gridScrollRef = useRef<HTMLDivElement>(null);
+  const [lastSearchMs, setLastSearchMs] = useState<number | null>(null);
 
   // Load from storage
   useEffect(() => {
@@ -53,10 +56,13 @@ export default function App() {
   const handleSearch = async () => {
     if (!userState.region) return;
     setIsLoading(true);
+    const t0 = Date.now();
     const results = await getRecommendations(userState);
+    setLastSearchMs(Date.now() - t0);
     setRecommendations(results);
     setIsLoading(false);
     setViewMode('grid');
+    setTimeout(() => { if (gridScrollRef.current) gridScrollRef.current.scrollTop = 0; }, 0);
   };
 
   const toggleFavorite = (place: Place) => {
@@ -136,36 +142,21 @@ export default function App() {
 
         <div className="flex-1 overflow-hidden flex flex-col">
           {/* Main Dashboard Interaction Area */}
-          <div className="flex-1 relative">
-            <AnimatePresence mode="wait">
-              {viewMode === 'grid' ? (
-                <motion.div
-                  key="grid"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  className="h-full overflow-y-auto p-8"
-                >
+          <div className="flex-1 overflow-hidden relative">
+            {/* Grid View */}
+            <div
+              ref={gridScrollRef}
+              className="absolute inset-0 overflow-y-auto p-8"
+              style={{ display: viewMode === 'grid' ? 'block' : 'none' }}
+            >
                   {recommendations.length > 0 ? (
                     <div className="space-y-8">
-                      {/* Section Title */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <Sparkles size={18} className="text-brand-accent" />
                           <h2 className="text-2xl font-display font-bold">당신을 위한 추천</h2>
                         </div>
                         <p className="text-sm text-gray-400">총 {recommendations.length}개의 장소를 찾았습니다.</p>
-                      </div>
-
-                      {/* Map Inline Hint */}
-                      <div className="h-64 mb-8 rounded-3xl overflow-hidden border border-brand-border shadow-inner bg-gray-50 flex flex-col">
-                        <div className="flex-1">
-                          <MapComponent favorites={favorites} center={mapCenter} />
-                        </div>
-                        <div className="bg-white/80 backdrop-blur py-3 px-6 border-t border-brand-border flex items-center justify-between">
-                           <span className="text-xs font-medium text-gray-500 italic">선택한 장소들이 지도에 표시됩니다.</span>
-                           <button onClick={() => setViewMode('map')} className="text-xs font-bold text-brand-accent flex items-center gap-1">지도로 크게 보기 <Info size={12} /></button>
-                        </div>
                       </div>
 
                       {/* Grid */}
@@ -194,19 +185,16 @@ export default function App() {
                       </div>
                     </div>
                   )}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="map"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-full w-full"
-                >
-                  <MapComponent favorites={favorites} center={mapCenter} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            </div>
+
+            {/* Map Full View - always mounted to prevent re-init */}
+            <div
+              data-testid="map-container"
+              className="absolute inset-0"
+              style={{ display: viewMode === 'map' ? 'block' : 'none' }}
+            >
+              <MapComponent favorites={favorites} center={mapCenter} />
+            </div>
           </div>
         </div>
       </main>
@@ -239,6 +227,14 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ValidationAgent
+        recommendations={recommendations}
+        favorites={favorites}
+        interests={userState.interests}
+        region={userState.region}
+        lastSearchMs={lastSearchMs}
+      />
     </div>
   );
 }

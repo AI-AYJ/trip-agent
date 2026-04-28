@@ -1,0 +1,21 @@
+{
+  "description": "정상 케이스 — 제주도, 가족, 높은 피로도, 관광지+문화",
+  "userState": {
+    "region": "제주도",
+    "fatigue": "high",
+    "companion": "family",
+    "interests": ["관광지", "문화"],
+    "startTime": "2026-04-28T14:00:00.000+09:00"
+  },
+  "kakaoExpected": {
+    "categoryCodes": ["AT4", "CT1"],
+    "minResults": 10
+  },
+  "expected": {
+    "minPlaces": 10,
+    "dominantCategories": ["tourism", "culture"],
+    "interestMatchRatio": 0.7,
+    "allFieldsPresent": true
+  },
+  "note": "피로도 high → Gemini 프롬프트에 '실내, 이동 적은 장소 우선' 힌트 포함 확인"
+}

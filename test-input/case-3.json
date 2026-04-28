@@ -1,0 +1,17 @@
+{
+  "description": "실패 케이스 — region 미입력 시 API 미호출",
+  "userState": {
+    "region": "",
+    "fatigue": "low",
+    "companion": "alone",
+    "interests": ["맛집"],
+    "startTime": "2026-04-28T10:00:00.000+09:00"
+  },
+  "isFailureCase": true,
+  "expected": {
+    "searchButtonDisabled": true,
+    "kakaoApiCallCount": 0,
+    "geminiApiCallCount": 0,
+    "recommendations": []
+  }
+}

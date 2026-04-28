@@ -1,0 +1,20 @@
+{
+  "description": "정상 케이스 — 서울 강남구, 커플, 낮은 피로도, 맛집+카페",
+  "userState": {
+    "region": "서울 강남구",
+    "fatigue": "low",
+    "companion": "couple",
+    "interests": ["맛집", "카페"],
+    "startTime": "2026-04-28T10:00:00.000+09:00"
+  },
+  "kakaoExpected": {
+    "categoryCodes": ["FD6", "CE7"],
+    "minResults": 10
+  },
+  "expected": {
+    "minPlaces": 10,
+    "dominantCategories": ["restaurant", "cafe"],
+    "interestMatchRatio": 0.7,
+    "allFieldsPresent": true
+  }
+}

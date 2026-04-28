@@ -1,0 +1,20 @@
+{
+  "description": "정상 케이스 — 부산 해운대, 친구, 중간 피로도, 맛집+쇼핑",
+  "userState": {
+    "region": "부산 해운대",
+    "fatigue": "medium",
+    "companion": "friends",
+    "interests": ["맛집", "쇼핑"],
+    "startTime": "2026-04-28T12:00:00.000+09:00"
+  },
+  "kakaoExpected": {
+    "categoryCodes": ["FD6", "MT1"],
+    "minResults": 10
+  },
+  "expected": {
+    "minPlaces": 10,
+    "dominantCategories": ["restaurant", "tourism"],
+    "interestMatchRatio": 0.7,
+    "allFieldsPresent": true
+  }
+}
